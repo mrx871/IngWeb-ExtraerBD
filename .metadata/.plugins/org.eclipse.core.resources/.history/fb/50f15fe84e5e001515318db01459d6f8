@@ -1,0 +1,149 @@
+package co.edu.udea.iw.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import co.edu.udea.iw.dao.CiudadDAO;
+import co.edu.udea.iw.dto.Ciudad;
+import co.edu.udea.iw.dao.cnf.DataSource;
+import co.edu.udea.iw.exception.MyException;
+
+
+// La implementacion de la interfaz CiudadDAO
+public class CiudadDAOImpl implements CiudadDAO {
+
+	// Se podria extender de DataSource para evitar crear esas vueltas
+	@Override
+	public List<Ciudad> obtener () throws MyException {
+		
+		// Imports de java.sql ... no los otros
+		Connection con = null;
+		DataSource ds = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List <Ciudad> ciudades = new ArrayList <Ciudad> ();
+		
+		try{
+			ds = new DataSource();
+			con = ds.getConnection();
+			
+			ps = con.prepareStatement(
+					"SELECT * FROM Ciudades");
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				Ciudad ciudad = new Ciudad();
+				
+				// Se usan los nombres que aparecen en la BD
+				ciudad.setCodigo(rs.getInt("codigo"));
+				ciudad.setNombre(rs.getString("Nombre"));
+				ciudad.setCodigoArea(rs.getString("CodigoArea"));
+				
+				ciudades.add(ciudad);
+			}
+		}
+		catch (SQLException e) {
+			// Recordar el NEW !!
+			throw new MyException("SQL Exception", e);
+		}
+		
+		// Pueden suceder problemas como es nulo ... y cerrar necesita sqlExc
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}
+				catch (SQLException e) {
+					throw new MyException ("Error en finally", e);
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				}
+				catch (SQLException e) {
+					throw new MyException ("Error en finally", e);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException e) {
+					throw new MyException ("Error en finally", e);
+				}
+			}
+		}
+		
+		return ciudades;
+	}
+	
+	@Override
+	public Ciudad obtener (String codigoArea) throws MyException {
+		
+		// Imports de java.sql ... no los otros
+		Connection con = null;
+		DataSource ds = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Ciudad ciudad = null;
+		
+		try{
+			ds = new DataSource();
+			con = ds.getConnection();
+			
+			ps = con.prepareStatement(
+					"SELECT * FROM Ciudades WHERE CodigoArea=?");
+			ps.setString(1, codigoArea);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				ciudad = new Ciudad();
+				
+				// Se usan los nombres que aparecen en la BD
+				ciudad.setCodigo(rs.getInt("codigo"));
+				ciudad.setNombre(rs.getString("Nombre"));
+				ciudad.setCodigoArea(rs.getString("CodigoArea"));
+			}
+		}
+		catch (SQLException e) {
+			// Recordar el NEW !!
+			throw new MyException("SQL Exception", e);
+		}
+		
+		// Pueden suceder problemas como es nulo ... y cerrar necesita sqlExc
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}
+				catch (SQLException e) {
+					throw new MyException ("Error en finally", e);
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				}
+				catch (SQLException e) {
+					throw new MyException ("Error en finally", e);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException e) {
+					throw new MyException ("Error en finally", e);
+				}
+			}
+		}
+		
+		return ciudad;
+	}
+	
+}

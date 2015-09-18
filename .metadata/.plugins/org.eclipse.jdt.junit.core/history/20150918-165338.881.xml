@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CiudadDAOTest" project="Proyecto Extraer" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="co.edu.udea.iw.dao.CiudadDAOTest" time="0.143">
+    <testcase name="testObtener" classname="co.edu.udea.iw.dao.CiudadDAOTest" time="0.13"/>
+    <testcase name="testObtenerString" classname="co.edu.udea.iw.dao.CiudadDAOTest" time="0.013"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,26 @@
+package co.edu.udea.iw.dao;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import co.edu.udea.iw.dao.CiudadDAO;
+
+public class CiudadDAOTest {
+
+	@Test
+	public void testObtener() {
+		CiudadDAO dao = null;
+		
+		try {
+			dao = new CiudadDAOImpl();
+			lista = dao.obtener();
+		}
+	}
+
+	@Test
+	public void testObtenerString() {
+		fail("Not yet implemented");
+	}
+
+}
